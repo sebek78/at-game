@@ -7,12 +7,29 @@ import { invoke } from '@tauri-apps/api';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'at-game';
-  constructor() {
-    console.log('at-game');
+  count = 0;
+  action = '';
 
-    invoke('greet', { name: 'World' }).then((response) =>
-      console.log(response)
-    );
+  increase() {
+    this.count += 1;
+    this.action = '';
+  }
+
+  reset() {
+    this.count = 0;
+    this.action = '';
+  }
+
+  load() {
+    invoke<string>('load_from_file').then((response: string) => {
+      this.count = parseInt(response, 10);
+      this.action = 'loaded';
+    });
+  }
+  save() {
+    invoke('save_to_file', { data: this.count.toString() }).then((response) => {
+      console.log(response);
+      this.action = 'saved';
+    });
   }
 }
