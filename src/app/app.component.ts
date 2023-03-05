@@ -28,7 +28,6 @@ export class AppComponent {
   }
   save() {
     invoke('save_to_file', { data: this.count.toString() }).then((response) => {
-      console.log(response);
       this.action = 'saved';
     });
   }
